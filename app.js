@@ -47,14 +47,13 @@
   var state = { sound:true, sort:"newest", current:null, difficulty:"Normal", vib:false, adminUnlocked:false, gameSound:{}, gameMusic:{} };
   var sessionPlays = { snake:0, ludo:0, sorting:0, memory:0, merge:0, bricks:0, tictactoe:0, mole:0, flappy:0, mines:0 };
 
-  /* ---------- Live play counts (Supabase) ----------
+  /* ---------- Live play counts (Neon) ----------
      Counts are shared by every visitor: the game_plays table holds one row
      per game, and the increment_game_play RPC adds 1 each time a game is
      opened. Everything here is fire-and-forget with a short timeout — if the
      network is down, the last cached counts are shown and every game stays
      fully playable offline. */
-  var SB_URL = "https://wjjscchfxsmbytwxnqla.supabase.co";
-  var SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndqanNjY2hmeHNtYnl0d3hucWxhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTM2MzMxODIsImV4cCI6MjEwOTIwOTE4Mn0.RIJqfyWLyYdPi-OD2QFzRbYBYlgm30NElPOpDeZiJ0I";
+  var SB_URL = "https://br-lucky-term-a10w3tai-chigarooapi.compute.c-1.ap-southeast-1.aws.neon.tech";
   var PLAYS_CACHE_KEY = "chigaroo_plays_cache";
   var livePlays = {};
   var liveOK = false;
@@ -73,7 +72,7 @@
     return fetch(SB_URL + path, opts).then(function(r){ done(); return r; }, function(err){ done(); throw err; });
   }
   function sbHeaders(extra){
-    var h = { "apikey": SB_KEY, "Authorization": "Bearer " + SB_KEY };
+    var h = {};
     if(extra){ for(var k in extra) h[k] = extra[k]; }
     return h;
   }
@@ -146,7 +145,7 @@
     });
   }
 
-  /* ---------- Owner games in the cloud (Supabase owner_games) ----------
+  /* ---------- Owner games in the cloud (Neon owner_games) ----------
      On load the owner_games table is read with the anon key and merged into
      the games list, so a game the owner added on one device shows on every
      device. Writes happen only when the admin Add Game form is submitted
